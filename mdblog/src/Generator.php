@@ -2,16 +2,15 @@
 
 namespace MdBlog;
 
-use DateTime;
 
 class Generator {
 
-    private $posts = [];
-    private $pages = [];
-    private $config = [];
-    private $basePath = '';
-    private $outputPath = '';
-    private $template;
+    private array $posts = [];
+    private array $pages = [];
+    private array $config = [];
+    private string $basePath = '';
+    private string $outputPath = '';
+    private Template $template;
 
     public function __construct($pages, $template, $basePath, $outputPath) {
         $this->pages = $pages;
@@ -41,7 +40,7 @@ class Generator {
     //     return $est;
     // }
 
-    public function generatePages() {
+    public function generatePages(): int {
         // OUTPUT PAGES
         foreach ($this->pages as $page) {
             $template = $page['data']['template'] ?? null;

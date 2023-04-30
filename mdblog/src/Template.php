@@ -2,6 +2,8 @@
 
 namespace MdBlog;
 
+use DateTime;
+
 class Template {
 
     public $blocks = array();
@@ -129,6 +131,10 @@ class Template {
         foreach ($this->pages as $page) {
             if (isset($params['folder'])) {
                 if ($page['data']['folder'] == $params['folder']) {
+                    $draftPage = $page['data']['draft'] ?? false;
+                    if ($draftPage) {
+                        continue;
+                    }
                     $result[] = $page;
                 }
             }
@@ -143,16 +149,24 @@ class Template {
         return $result;
     }
 
-    private function sortBy($pages, $item) {
+    private function sortBy(&$pages, $item) {
         list($key, $sort) = explode('|',$item);
         if ($pages) {
             if ($sort == 'desc') {
                 usort($pages, function ($a, $b) use ($key) {
-                    return strcmp($b["data"][$key], $a["data"][$key]);
+                    if ($a["data"][$key] instanceof DateTime && $b["data"][$key] instanceof DateTime) {
+                        return ($b["data"][$key] > $a["data"][$key]);
+                    } else {
+                        return strcmp($b["data"][$key], $a["data"][$key]);
+                    }
                 });
             } elseif ($sort == 'asc') {
                 usort($pages, function ($a, $b) use ($key) {
-                    return strcmp($a["data"][$key], $b["data"][$key]);
+                    if ($a["data"][$key] instanceof DateTime && $b["data"][$key] instanceof DateTime) {
+                        return ($b["data"][$key] < $a["data"][$key]);
+                    } else {
+                        return strcmp($b["data"][$key], $a["data"][$key]);
+                    }
                 });
             }
         }

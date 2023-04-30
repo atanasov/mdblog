@@ -2,10 +2,6 @@
 
 namespace MdBlog;
 
-use MdBlog\Generator;
-use MdBlog\Parser;
-use MdBlog\Template;
-use MdBlog\Cli;
 
 class App {
     private ?string $basePath;

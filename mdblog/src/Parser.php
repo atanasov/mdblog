@@ -39,48 +39,48 @@ class Parser {
         }
     }
 
-    private function processMarkdownFiles($postFiles, $config, $sort = false) {
+    // private function processMarkdownFiles($postFiles, $config, $sort = false) {
 
-        $posts = [];
+    //     $posts = [];
 
-        foreach ($postFiles as $file) {
-            if ($file != '') {
-                $fileName = basename($file, ".md");
-                $url = basename($file);
-                $content = FileSystem::getFileContent($file);
+    //     foreach ($postFiles as $file) {
+    //         if ($file != '') {
+    //             $fileName = basename($file, ".md");
+    //             $url = basename($file);
+    //             $content = FileSystem::getFileContent($file);
 
-                preg_match_all('/---(.*?)---/s', $content, $matches);
-                $yaml = $matches[1][0] ?? '';
+    //             preg_match_all('/---(.*?)---/s', $content, $matches);
+    //             $yaml = $matches[1][0] ?? '';
 
-                $data = Yaml::parse($yaml, Yaml::PARSE_DATETIME);
-                if (!isset($data['url'])) {
-                    $data['url'] = $config['url'].'/'.$fileName;
-                }
-                $marker = strpos($content, '---', 1);
-                $markdown = substr($content, $marker + 3);
+    //             $data = Yaml::parse($yaml, Yaml::PARSE_DATETIME);
+    //             if (!isset($data['url'])) {
+    //                 $data['url'] = $config['url'].'/'.$fileName;
+    //             }
+    //             $marker = strpos($content, '---', 1);
+    //             $markdown = substr($content, $marker + 3);
 
-                $html = $this->parser->text($markdown);
-                $posts[] = [
-                    'name' => $fileName,
-                    'content' => $html,
-                    'data' => $data,
-                ];
-            }
-        }
-        if ($sort) {
-            $this->sortBy($posts, 'date');
-        }
+    //             $html = $this->parser->text($markdown);
+    //             $posts[] = [
+    //                 'name' => $fileName,
+    //                 'content' => $html,
+    //                 'data' => $data,
+    //             ];
+    //         }
+    //     }
+    //     if ($sort) {
+    //         $this->sortBy($posts, 'date');
+    //     }
 
-        return $posts;
-    }
+    //     return $posts;
+    // }
     // SORT by item
-    private function sortBy($posts, $item) {
-        if ($posts) {
-            usort($posts, function ($a, $b) use ($item) {
-                return strcmp($b["data"][$item], $a["data"][$item]);
-            });
-        }
-    }
+    // private function sortBy($posts, $item) {
+    //     if ($posts) {
+    //         usort($posts, function ($a, $b) use ($item) {
+    //             return strcmp($b["data"][$item], $a["data"][$item]);
+    //         });
+    //     }
+    // }
     public function getPHPExpression($code) {
         return preg_replace('~\{{\s*(.+?)\s*\}}~is', '$val = $1;', $code);
     }

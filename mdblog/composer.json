@@ -1,9 +1,10 @@
 {
     "name": "atanasov/md-blog",
-    "description": "Simple blog genarator from Markdown content",
+    "description": "Simple blog generator from Markdown content",
     "require": {
         "symfony/yaml": "^5.4",
-        "erusev/parsedown": "^1.7"
+        "erusev/parsedown": "^1.7",
+      "ext-readline": "*"
     },
     "license": "MIT",
     "autoload": {
